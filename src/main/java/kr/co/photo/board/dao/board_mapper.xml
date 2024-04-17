@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+<!-- 이 xml 은 어떤 interface 를 참조해서 사용해야 하는가? -->
+<mapper namespace="kr.co.photo.board.dao.BoardDAO">
+	<select id="login" resultType="String">
+		SELECT id FROM member WHERE id = #{param1} AND pw = #{param2}
+	</select>
+	
+	<select id="list" resultType="kr.co.photo.board.dto.BoardDTO">
+		SELECT idx,subject,user_name,bHit,reg_date FROM bbs
+	</select>
+	
+	<delete id="del">
+		DELETE FROM bbs WHERE idx = #{param1}
+	</delete>
+	
+	<insert id="write"
+	useGeneratedKeys="true"
+	keyColumn="idx"
+	keyProperty="idx"
+	parameterType="kr.co.photo.board.dto.BoardDTO"
+	>
+		INSERT INTO bbs(subject,user_name,content)
+			VALUES(#{subject},#{user_name},#{content})
+	</insert>
+	
+	<select id="detail" resultType="kr.co.photo.board.dto.BoardDTO">
+		SELECT idx,bHit,subject,user_name,content FROM bbs WHERE idx = #{param1}
+	</select>
+	
+	<update id="upHit">
+		UPDATE bbs SET bHit = bHit + 1 WHERE idx = #{param1}
+	</update>
+	
+	<update id="update">
+		UPDATE bbs SET subject = #{subject}, user_name = #{user_name}, content = #{content}
+			WHERE idx = #{idx}
+	</update>	
+	
+	<insert id="fileWrite">
+		INSERT INTO photo(ori_filename,new_filename,idx)
+			VALUES(#{param1},#{param2},#{param3})
+	</insert>
+	
+	<select id="photos" resultType="kr.co.photo.board.dto.PhotoDTO">
+		SELECT ori_filename, new_filename, file_idx
+			FROM photo WHERE idx = #{param1}
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
